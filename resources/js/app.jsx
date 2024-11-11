@@ -9,11 +9,18 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.jsx`,
-            import.meta.glob('./Pages/**/*.jsx'),
-        ),
+    resolve: (name) => {
+        return resolvePageComponent(
+            `./Pages/${name}.tsx`, // Сначала пробуем .tsx
+            import.meta.glob(['./Pages/**/*.tsx', './Pages/**/*.jsx']) // Поддержка обоих форматов
+        ).catch(() => {
+            // Если не удалось загрузить .tsx, пробуем .jsx
+            return resolvePageComponent(
+                `./Pages/${name}.jsx`,
+                import.meta.glob(['./Pages/**/*.jsx', './Pages/**/*.tsx'])
+            );
+        });
+    },
     setup({ el, App, props }) {
         const root = createRoot(el);
 
