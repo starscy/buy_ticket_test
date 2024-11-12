@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Модель билет
+ */
 class Ticket extends Model
 {
     protected $guarded = [];
 
     /**
-     * Get the order that owns the ticket.
+     * Связь с заказами
+     *
+     * @return BelongsTo
      */
     public function order(): BelongsTo
     {
@@ -19,7 +23,9 @@ class Ticket extends Model
     }
 
     /**
-     * Get the event that the ticket belongs to.
+     * Связь с событиями
+     *
+     * @return BelongsTo
      */
     public function event(): BelongsTo
     {
